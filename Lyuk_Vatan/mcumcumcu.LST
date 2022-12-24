@@ -1,0 +1,440 @@
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 1
+
+
+
+;   6: void delay(unsigned int count){
+   6  0000              __extresb EQU [024H]
+   6  0000              __wdtc EQU [01cH]
+   6  0000              __ctrl1 EQU [01bH]
+   6  0000              __pawu EQU [013H]
+   6  0000              __papu EQU [012H]
+   6  0000              __pac EQU [011H]
+   6  0000              __pa EQU [010H]
+   6  0000              __tmr0c EQU [0dH]
+   6  0000              __tmr0 EQU [0cH]
+   6  0000              __intc0 EQU [0bH]
+   6  0000              __status EQU [0aH]
+   6  0000              __wdts EQU [09H]
+   6  0000              __tblh EQU [08H]
+   6  0000              __tblp EQU [07H]
+   6  0000              __pcl EQU [06H]
+   6  0000              __acc EQU [05H]
+   6  0000              __mp1 EQU [03H]
+   6  0000              __iar1 EQU [02H]
+   6  0000              __mp0 EQU [01H]
+   6  0000              __iar0 EQU [00H]
+   6  0000              @delay .SECTION 'CODE'
+   6  0000              PUBLIC _delay
+   6  0000              _delay PROC
+   6  0000              PUBLIC delay0
+   6  0000  0002[       LOCAL delay0 DB 2 DUP (?) ; count
+            00
+            ]
+
+;   7: 	for(i=1; i <= count; i++){
+   7  0000  0F01        MOV A,1
+   7  0001  0080     R  MOV _i,A
+   7  0002  1F00     R  CLR _i[1]
+   7  0003  2800     R  JMP L5
+   7  0004              L2:
+
+;   8: 		_delay(200000);		
+   8  0004  0FC2        MOV A,0c2H
+   8  0005  0080     E  MOV RH,A
+   8  0006  0FED        MOV A,0edH
+   8  0007  2000     E  CALL __DELAYY3
+   8  0008              L3:
+
+;   7: 	for(i=1; i <= count; i++){
+   7  0008  1480     R  INC _i
+   7  0009  3D0A        SZ [0AH].2
+   7  000A  1480     R  INC _i[1]
+   7  000B              L5:
+   7  000B  0700     R  MOV A,delay0[1]
+   7  000C  0200     R  SUB A,_i[1]
+   7  000D  380A        SNZ [0ah].0
+   7  000E  2800     R  JMP L6
+   7  000F  390A        SNZ [0ah].2
+   7  0010  2800     R  JMP L2
+   7  0011  0700     R  MOV A,delay0
+   7  0012  0200     R  SUB A,_i
+   7  0013  3C0A        SZ [0ah].0
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 2 
+
+   7  0014  2800     R  JMP L2
+   7  0015              L6:
+   7  0015              L1:
+   7  0015  0003        RET
+   7  0016              _delay ENDP
+
+;  13: void delay_info(unsigned int count){
+  13  0000              @delay_info .SECTION 'CODE'
+  13  0000              PUBLIC _delay_info
+  13  0000              _delay_info PROC
+  13  0000              PUBLIC delay_info0
+  13  0000  0002[       LOCAL delay_info0 DB 2 DUP (?) ; count
+            00
+            ]
+
+;  14: 	for(i=1; i <= count; i++){
+  14  0000  0F01        MOV A,1
+  14  0001  0080     R  MOV _i,A
+  14  0002  1F00     R  CLR _i[1]
+  14  0003  2800     R  JMP L11
+  14  0004              L8:
+
+;  15: 		_delay(200000);	
+  15  0004  0FC2        MOV A,0c2H
+  15  0005  0080     E  MOV RH,A
+  15  0006  0FED        MOV A,0edH
+  15  0007  2000     E  CALL __DELAYY3
+
+;  16: 		if(_pa2 == 1){
+  16  0008  3910        SNZ [010H].2
+  16  0009  2800     R  JMP L12
+
+;  17: 			break;
+  17  000A  2800     R  JMP L10
+  17  000B              L12:
+  17  000B              L9:
+
+;  14: 	for(i=1; i <= count; i++){
+  14  000B  1480     R  INC _i
+  14  000C  3D0A        SZ [0AH].2
+  14  000D  1480     R  INC _i[1]
+  14  000E              L11:
+  14  000E  0700     R  MOV A,delay_info0[1]
+  14  000F  0200     R  SUB A,_i[1]
+  14  0010  380A        SNZ [0ah].0
+  14  0011  2800     R  JMP L14
+  14  0012  390A        SNZ [0ah].2
+  14  0013  2800     R  JMP L8
+  14  0014  0700     R  MOV A,delay_info0
+  14  0015  0200     R  SUB A,_i
+  14  0016  3C0A        SZ [0ah].0
+  14  0017  2800     R  JMP L8
+  14  0018              L14:
+  14  0018              L10:
+  14  0018              L7:
+  14  0018  0003        RET
+  14  0019              _delay_info ENDP
+
+;  22: void main(){
+  22  0000              @MAIN .SECTION 'CODE'
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 3 
+
+  22  0000              _main PROC
+  22  0000              begin:
+
+;  23: 	blink = 10.5;	
+  23  0000  0F00        MOV A,00h
+  23  0001  0080     R  MOV _blink,A
+  23  0002  0F00        MOV A,00h
+  23  0003  0080     R  MOV _blink[1],A
+  23  0004  0F28        MOV A,028h
+  23  0005  0080     R  MOV _blink[2],A
+  23  0006  0F41        MOV A,041h
+  23  0007  0080     R  MOV _blink[3],A
+
+;  24: 	_pac0 = 0;
+  24  0008  3411        CLR [011H].0
+
+;  25: 	_pac1 = 0;	
+  25  0009  3491        CLR [011H].1
+
+;  26: 	_pac2 = 1;
+  26  000A  3111        SET [011H].2
+
+;  27: 	_pac5 = 1;
+  27  000B  3291        SET [011H].5
+
+;  28: 	_pac6 = 1;	
+  28  000C  3311        SET [011H].6
+
+;  29: 	_pac7 = 1;
+  29  000D  3391        SET [011H].7
+
+;  30: 	_pa0 = 0;
+  30  000E  3410        CLR [010H].0
+
+;  31: 	_pa1 = 0;
+  31  000F  3490        CLR [010H].1
+
+;  32: 	_status = 0b00000000;
+  32  0010  1F0A        CLR __status
+
+;  33: 	_pawu = 0b00000000;
+  33  0011  1F13        CLR __pawu
+
+;  34: 	_papu = 0b00000000;
+  34  0012  1F12        CLR __papu
+
+;  35: 	_wdtc = 0b00101101;
+  35  0013  0F2D        MOV A,02dh
+  35  0014  009C        MOV __wdtc,A
+
+;  36: 	_extresb = 0b00000000;
+  36  0015  1F24        CLR __extresb
+
+;  37: 	_inte = 0;	
+  37  0016  348B        CLR [0BH].1
+
+;  38: 	_emi = 0; //global interrupts enabled	
+  38  0017  340B        CLR [0BH].0
+  38  0018  2800     R  JMP L17
+  38  0019              L16:
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 4 
+
+
+;  41: 		if(_pa6 == 0){
+  41  0019  3F10        SZ [010H].6
+  41  001A  2800     R  JMP L19
+
+;  42: 			_delay(50000);
+  42  001B  0F30        MOV A,030H
+  42  001C  0080     E  MOV RH,A
+  42  001D  0FBA        MOV A,0baH
+  42  001E  2000     E  CALL __DELAYY3
+
+;  43: 			if(_pa6 == 0){				
+  43  001F  3F10        SZ [010H].6
+  43  0020  2800     R  JMP L21
+
+;  59: 					if(_pa2 == 1){
+  59  0021  3910        SNZ [010H].2
+  59  0022  2800     R  JMP L23
+
+;  60: 						_pa0 = 1;
+  60  0023  3010        SET [010H].0
+
+;  61: 						delay(30);
+  61  0024  0F1E        MOV A,01eh
+  61  0025  0080     R  MOV delay0,A
+  61  0026  0F00        MOV A,00h
+  61  0027  0080     R  MOV delay0[1],A
+  61  0028  2000     R  CALL _delay
+
+;  62: 						_pa0 = 0;
+  62  0029  3410        CLR [010H].0
+
+;  63: 						_delay(100000);
+  63  002A  0F61        MOV A,061H
+  63  002B  0080     E  MOV RH,A
+  63  002C  0F76        MOV A,076H
+  63  002D  2000     E  CALL __DELAYY1
+
+;  64: 						blink = 3.5;
+  64  002E  0F00        MOV A,00h
+  64  002F  0080     R  MOV _blink,A
+  64  0030  0F00        MOV A,00h
+  64  0031  0080     R  MOV _blink[1],A
+  64  0032  0F60        MOV A,060h
+  64  0033  0080     R  MOV _blink[2],A
+  64  0034  0F40        MOV A,040h
+  64  0035  0080     R  MOV _blink[3],A
+
+;  65: 						}
+  65  0036  2800     R  JMP L24
+  65  0037              L23:
+
+;  67: 						_pa1 = 1;
+  67  0037  3090        SET [010H].1
+
+;  68: 						delay(30);
+  68  0038  0F1E        MOV A,01eh
+  68  0039  0080     R  MOV delay0,A
+  68  003A  0F00        MOV A,00h
+  68  003B  0080     R  MOV delay0[1],A
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 5 
+
+  68  003C  2000     R  CALL _delay
+
+;  69: 						_pa1 = 0;
+  69  003D  3490        CLR [010H].1
+
+;  70: 						_delay(100000);
+  70  003E  0F61        MOV A,061H
+  70  003F  0080     E  MOV RH,A
+  70  0040  0F76        MOV A,076H
+  70  0041  2000     E  CALL __DELAYY1
+
+;  71: 						blink = 10.5;					
+  71  0042  0F00        MOV A,00h
+  71  0043  0080     R  MOV _blink,A
+  71  0044  0F00        MOV A,00h
+  71  0045  0080     R  MOV _blink[1],A
+  71  0046  0F28        MOV A,028h
+  71  0047  0080     R  MOV _blink[2],A
+  71  0048  0F41        MOV A,041h
+  71  0049  0080     R  MOV _blink[3],A
+
+;  72: 						if(_pa2 == 0){
+  72  004A  3D10        SZ [010H].2
+  72  004B  2800     R  JMP L25
+
+;  73: 							_pa0 = 1;
+  73  004C  3010        SET [010H].0
+
+;  74: 							delay_info(120);
+  74  004D  0F78        MOV A,078h
+  74  004E  0080     R  MOV delay_info0,A
+  74  004F  0F00        MOV A,00h
+  74  0050  0080     R  MOV delay_info0[1],A
+  74  0051  2000     R  CALL _delay_info
+
+;  75: 							_pa0 = 0;
+  75  0052  3410        CLR [010H].0
+
+;  76: 							_delay(100000);
+  76  0053  0F61        MOV A,061H
+  76  0054  0080     E  MOV RH,A
+  76  0055  0F76        MOV A,076H
+  76  0056  2000     E  CALL __DELAYY1
+
+;  77: 							blink = 3.5;				
+  77  0057  0F00        MOV A,00h
+  77  0058  0080     R  MOV _blink,A
+  77  0059  0F00        MOV A,00h
+  77  005A  0080     R  MOV _blink[1],A
+  77  005B  0F60        MOV A,060h
+  77  005C  0080     R  MOV _blink[2],A
+  77  005D  0F40        MOV A,040h
+  77  005E  0080     R  MOV _blink[3],A
+  77  005F              L25:
+  77  005F              L24:
+  77  005F              L21:
+  77  005F              L19:
+
+;  83: 		if(_pa7 == 0 && _pa2 == 0){
+  83  005F  3F90        SZ [010H].7
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 6 
+
+  83  0060  2800     R  JMP L27
+  83  0061  3D10        SZ [010H].2
+  83  0062  2800     R  JMP L27
+
+;  84: 			_delay(50000);
+  84  0063  0F30        MOV A,030H
+  84  0064  0080     E  MOV RH,A
+  84  0065  0FBA        MOV A,0baH
+  84  0066  2000     E  CALL __DELAYY3
+
+;  85: 			if(_pa7 == 0 && _pa2 == 0){			
+  85  0067  3F90        SZ [010H].7
+  85  0068  2800     R  JMP L29
+  85  0069  3D10        SZ [010H].2
+  85  006A  2800     R  JMP L29
+
+;  86: 				_pa1 = 1;
+  86  006B  3090        SET [010H].1
+
+;  87: 				delay(30);
+  87  006C  0F1E        MOV A,01eh
+  87  006D  0080     R  MOV delay0,A
+  87  006E  0F00        MOV A,00h
+  87  006F  0080     R  MOV delay0[1],A
+  87  0070  2000     R  CALL _delay
+
+;  88: 				_pa1 = 0;
+  88  0071  3490        CLR [010H].1
+
+;  89: 				_delay(100000);
+  89  0072  0F61        MOV A,061H
+  89  0073  0080     E  MOV RH,A
+  89  0074  0F76        MOV A,076H
+  89  0075  2000     E  CALL __DELAYY1
+
+;  90: 				blink = 10.5;					
+  90  0076  0F00        MOV A,00h
+  90  0077  0080     R  MOV _blink,A
+  90  0078  0F00        MOV A,00h
+  90  0079  0080     R  MOV _blink[1],A
+  90  007A  0F28        MOV A,028h
+  90  007B  0080     R  MOV _blink[2],A
+  90  007C  0F41        MOV A,041h
+  90  007D  0080     R  MOV _blink[3],A
+
+;  91: 				if(_pa2 == 0){
+  91  007E  3D10        SZ [010H].2
+  91  007F  2800     R  JMP L31
+
+;  92: 					_pa0 = 1;
+  92  0080  3010        SET [010H].0
+
+;  93: 					delay_info(100);
+  93  0081  0F64        MOV A,064h
+  93  0082  0080     R  MOV delay_info0,A
+  93  0083  0F00        MOV A,00h
+  93  0084  0080     R  MOV delay_info0[1],A
+  93  0085  2000     R  CALL _delay_info
+
+;  94: 					_pa0 = 0;
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 7 
+
+  94  0086  3410        CLR [010H].0
+
+;  95: 					_delay(100000);
+  95  0087  0F61        MOV A,061H
+  95  0088  0080     E  MOV RH,A
+  95  0089  0F76        MOV A,076H
+  95  008A  2000     E  CALL __DELAYY1
+
+;  96: 					blink = 3.5;				
+  96  008B  0F00        MOV A,00h
+  96  008C  0080     R  MOV _blink,A
+  96  008D  0F00        MOV A,00h
+  96  008E  0080     R  MOV _blink[1],A
+  96  008F  0F60        MOV A,060h
+  96  0090  0080     R  MOV _blink[2],A
+  96  0091  0F40        MOV A,040h
+  96  0092  0080     R  MOV _blink[3],A
+  96  0093              L31:
+  96  0093              L29:
+  96  0093              L27:
+  96  0093              L17:
+
+;  39: 	while(1)
+  39  0093  2800     R  JMP L16
+  39  0094              L15:
+
+; 101: }
+ 101  0094  2800     R  JMP $
+ 101  0095              _main ENDP
+ 101  0095              PUBLIC _blink
+ 101  0000              @blink .SECTION 'DATA'
+
+;   4: float blink;
+   4  0000  0004[       _blink DB 4 DUP (?) ; blink
+            00
+            ]
+   4  0004              PUBLIC _i
+   4  0000              @i .SECTION 'DATA'
+
+;   3: unsigned int i;
+   3  0000  0002[       _i DB 2 DUP (?) ; i
+            00
+            ]
+
+;  22: void main(){
+  22  0000              STARTSEC .SECTION  COM_L 'CODE'
+  22  0000              STARTUP:
+  22  0000              STARTSEC .SECTION  COM_E 'CODE'
+  22  0000  0003        RET
+  22  0001              EXTERN RH:BYTE
+  22  0001              EXTERN __DELAYY0:NEAR
+  22  0001              EXTERN __DELAYY1:NEAR
+  22  0001              EXTERN __DELAYY2:NEAR
+  22  0001              EXTERN __DELAYY3:NEAR
+  22  0001              EXTERN __DELAYY4:NEAR
+  22  0001              EXTERN __DELAYY5:NEAR
+  22  0000              @CODE .SECTION AT 0 'CODE'
+  22  0000  2000     R  CALL STARTUP
+  22  0001  2800     R  JMP begin
+  22  0002              @DUMMY PROC
+"File: mcumcumcu.c   Holtek Cross-Assembler  Version 3.00      Page 8 
+
+  22  0002  2000     R  CALL _main
+  22  0003              @DUMMY ENDP
+
+
+        0 Errors

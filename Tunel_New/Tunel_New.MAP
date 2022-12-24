@@ -1,0 +1,110 @@
+
+Linker Version 8.7.7.220718
+Input Object File: C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ
+
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\time_srsc.lib
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\ctype_srsc.lib
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\math_srsc.lib
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\stdlib_srsc.lib
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\string_srsc.lib
+
+
+     Start     End      Length     Class    AvgIns    Name
+     0000h     0002h    0003h      CODE               @CODE (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0003h     000ch    000ah      CODE               __DELAY (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB)
+     000dh     001ah    000eh      CODE               __DELAY (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB)
+     001bh     002eh    0014h      CODE               @ADC (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     002fh     0166h    0138h      CODE               @MAIN (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0167h     0167h    0001h      CODE               STARTSEC (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0040h     0040h    0001h      DATA     3         CTMPDATA (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB)
+     0041h     0042h    0002h      DATA     15        @voltH (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0043h     0044h    0002h      DATA     1         @voltL (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0045h     0046h    0002h      DATA     16        @i (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0047h     0048h    0002h      DATA     3         @blijOff (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0049h     004ah    0002h      DATA     4         @blijOn (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     004bh     004ch    0002h      DATA     3         @gabOff (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     004dh     004eh    0002h      DATA     4         @gabOn (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+
+     Local Sections
+
+     Start     End      Length     Class    AvgIns    Name
+     0041h     0041h    0000h      LOCAL    0         @DUMMY (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0041h     0041h    0000h      LOCAL    0         _main (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+     0041h     0041h    0000h      LOCAL    0         _ADC (C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ)
+
+     Indepentent Local Sections
+
+     Start     End      Length     Class    AvgIns    Name
+     0041h     0041h    0000h      ILOCAL   0         __DELAYX (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB)
+     0041h     0041h    0000h      ILOCAL   0         __DELAYY (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\MATH6.LIB)
+
+     Public Symbols Information
+     Address            Public by Name
+     0040h              RH
+     001bh              _ADC
+     0009h              __DELAYX0
+     0008h              __DELAYX1
+     0007h              __DELAYX2
+     0006h              __DELAYX3
+     0005h              __DELAYX4
+     0004h              __DELAYX5
+     0003h              __DELAYX6
+     0012h              __DELAYY0
+     0011h              __DELAYY1
+     0010h              __DELAYY2
+     000fh              __DELAYY3
+     000eh              __DELAYY4
+     000dh              __DELAYY5
+     0047h              _blijOff
+     0049h              _blijOn
+     004bh              _gabOff
+     004dh              _gabOn
+     0045h              _i
+     0041h              _voltH
+     0043h              _voltL
+
+     Address            Public by Value
+     0003h              __DELAYX6
+     0004h              __DELAYX5
+     0005h              __DELAYX4
+     0006h              __DELAYX3
+     0007h              __DELAYX2
+     0008h              __DELAYX1
+     0009h              __DELAYX0
+     000dh              __DELAYY5
+     000eh              __DELAYY4
+     000fh              __DELAYY3
+     0010h              __DELAYY2
+     0011h              __DELAYY1
+     0012h              __DELAYY0
+     001bh              _ADC
+     0040h              RH
+     0041h              _voltH
+     0043h              _voltL
+     0045h              _i
+     0047h              _blijOff
+     0049h              _blijOn
+     004bh              _gabOff
+     004dh              _gabOn
+
+
+ROM Usage Statistics
+     Size      Used     Percentage
+     0400h     0168h    35%
+
+RAM Usage Statistics
+     Size      Used     Percentage
+     0040h     000fh    23%
+
+Use Stack Count
+_main: 1
+
+Call Tree
+    @DUMMY
+        _main (0)
+            _ADC (1)
+
+HLINK: Program entry point at section '@CODE' (address 0) of file 'C:\Users\User\Desktop\Holtek\Tunel_New\TUNEL_NEW.OBJ'
+
+Total 0 error(s), Total 0 Warning(s)

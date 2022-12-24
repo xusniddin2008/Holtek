@@ -1,0 +1,705 @@
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 1
+
+
+
+; 108: void ADC() {    
+ 108  0000              __extresb EQU [024H]
+ 108  0000              __acsr EQU [023H]
+ 108  0000              __adcr EQU [022H]
+ 108  0000              __adrh EQU [021H]
+ 108  0000              __adrl EQU [020H]
+ 108  0000              __pwm0 EQU [01fH]
+ 108  0000              __wdtc EQU [01cH]
+ 108  0000              __ctrl1 EQU [01bH]
+ 108  0000              __ctrl0 EQU [01aH]
+ 108  0000              __pawu EQU [013H]
+ 108  0000              __papu EQU [012H]
+ 108  0000              __pac EQU [011H]
+ 108  0000              __pa EQU [010H]
+ 108  0000              __tmr0c EQU [0dH]
+ 108  0000              __tmr0 EQU [0cH]
+ 108  0000              __intc0 EQU [0bH]
+ 108  0000              __status EQU [0aH]
+ 108  0000              __wdts EQU [09H]
+ 108  0000              __tblh EQU [08H]
+ 108  0000              __tblp EQU [07H]
+ 108  0000              __pcl EQU [06H]
+ 108  0000              __acc EQU [05H]
+ 108  0000              __mp1 EQU [03H]
+ 108  0000              __iar1 EQU [02H]
+ 108  0000              __mp0 EQU [01H]
+ 108  0000              __iar0 EQU [00H]
+ 108  0000              @ADC .SECTION 'CODE'
+ 108  0000              PUBLIC _ADC
+ 108  0000              _ADC PROC
+
+; 109:     _delay(2000);
+ 109  0000  0F01        MOV A,01H
+ 109  0001  0080     E  MOV RH,A
+ 109  0002  0FF2        MOV A,0f2H
+ 109  0003  2000     E  CALL __DELAYY1
+
+; 110:     _start = 0;
+ 110  0004  37A2        CLR [022H].7
+
+; 111:     _start = 1;
+ 111  0005  33A2        SET [022H].7
+
+; 112:     _start = 0;    
+ 112  0006  37A2        CLR [022H].7
+
+; 113:     _delay(15000);    
+ 113  0007  0F0E        MOV A,0eH
+ 113  0008  0080     E  MOV RH,A
+ 113  0009  0F9D        MOV A,09dH
+ 113  000A  2000     E  CALL __DELAYY3
+ 113  000B              L2:
+ 113  000B              L3:
+
+; 114:     while (_eocb);
+ 114  000B  3F22        SZ [022H].6
+ 114  000C  2800     R  JMP L2
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 2 
+
+
+; 115:     voltL = _adrl;
+ 115  000D  0720        MOV A,__adrl
+ 115  000E  0080     R  MOV _voltL,A
+ 115  000F  1F00     R  CLR _voltL[1]
+
+; 116:     voltH = _adrh;
+ 116  0010  0721        MOV A,__adrh
+ 116  0011  0080     R  MOV _voltH,A
+ 116  0012  1F00     R  CLR _voltH[1]
+ 116  0013              L1:
+ 116  0013  0003        RET
+ 116  0014              _ADC ENDP
+
+; 119: void main(){
+ 119  0000              @MAIN .SECTION 'CODE'
+ 119  0000              _main PROC
+ 119  0000              begin:
+
+; 120: 	gabOn = 150;
+ 120  0000  0F96        MOV A,096h
+ 120  0001  0080     R  MOV _gabOn,A
+ 120  0002  1F00     R  CLR _gabOn[1]
+
+; 121: 	gabOff = 48;
+ 121  0003  0F30        MOV A,030h
+ 121  0004  0080     R  MOV _gabOff,A
+ 121  0005  1F00     R  CLR _gabOff[1]
+
+; 122: 	blijOn = 200;
+ 122  0006  0FC8        MOV A,0c8h
+ 122  0007  0080     R  MOV _blijOn,A
+ 122  0008  1F00     R  CLR _blijOn[1]
+
+; 123: 	blijOff = 50;		
+ 123  0009  0F32        MOV A,032h
+ 123  000A  0080     R  MOV _blijOff,A
+ 123  000B  1F00     R  CLR _blijOff[1]
+
+; 124: 	_pac0 = 0;
+ 124  000C  3411        CLR [011H].0
+
+; 125: 	_pac1 = 0;	
+ 125  000D  3491        CLR [011H].1
+
+; 126: 	_pac2 = 1;
+ 126  000E  3111        SET [011H].2
+
+; 127: 	_pac5 = 1;
+ 127  000F  3291        SET [011H].5
+
+; 128: 	_pac6 = 1;	
+ 128  0010  3311        SET [011H].6
+
+; 129: 	_pac7 = 1;
+ 129  0011  3391        SET [011H].7
+
+; 130: 	_pa0 = 0;
+ 130  0012  3410        CLR [010H].0
+
+; 131: 	_pa1 = 0;
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 3 
+
+ 131  0013  3490        CLR [010H].1
+
+; 132: 	_status = 0b00000000;
+ 132  0014  1F0A        CLR __status
+
+; 133: 	_pawu = 0b00000000;
+ 133  0015  1F13        CLR __pawu
+
+; 134: 	_papu = 0b00000000;
+ 134  0016  1F12        CLR __papu
+
+; 135: 	_wdtc = 0b00101101;
+ 135  0017  0F2D        MOV A,02dh
+ 135  0018  009C        MOV __wdtc,A
+
+; 136: 	_extresb = 0b00000000;
+ 136  0019  1F24        CLR __extresb
+
+; 138: 	_acsr = 0b00000001;
+ 138  001A  0F01        MOV A,01h
+ 138  001B  00A3        MOV __acsr,A
+
+; 139: 	_adcr = 0b00100011;
+ 139  001C  0F23        MOV A,023h
+ 139  001D  00A2        MOV __adcr,A
+
+; 141: 	_ctrl0 = 0b00000000;
+ 141  001E  1F1A        CLR __ctrl0
+
+; 142: 	_intc0 = 0b00000011;
+ 142  001F  0F03        MOV A,03h
+ 142  0020  008B        MOV __intc0,A
+
+; 143: 	_inte = 0;	
+ 143  0021  348B        CLR [0BH].1
+
+; 144: 	_emi = 1; //global interrupts enabled	
+ 144  0022  300B        SET [0BH].0
+ 144  0023  2800     R  JMP L7
+ 144  0024              L9:
+
+; 147:             ADC();
+ 147  0024  2000     R  CALL _ADC
+
+; 148:             if (voltH > gabOn && gabarit == 0) {
+ 148  0025  0700     R  MOV A,_gabOn[1]
+ 148  0026  0200     R  SUB A,_voltH[1]
+ 148  0027  380A        SNZ [0ah].0
+ 148  0028  2800     R  JMP L68
+ 148  0029  390A        SNZ [0ah].2
+ 148  002A  2800     R  JMP L12
+ 148  002B  0700     R  MOV A,_gabOn
+ 148  002C  0200     R  SUB A,_voltH
+ 148  002D  3C0A        SZ [0ah].0
+ 148  002E  2800     R  JMP L12
+ 148  002F              L68:
+ 148  002F  3C90        SZ [010H].1
+ 148  0030  2800     R  JMP L12
+
+; 150:                 for (i = 0; i <= 235; i++) {
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 4 
+
+ 150  0031  1F00     R  CLR _i
+ 150  0032  1F00     R  CLR _i[1]
+ 150  0033  2800     R  JMP L17
+ 150  0034              L14:
+
+; 151:         			ADC();
+ 151  0034  2000     R  CALL _ADC
+
+; 152:         			if (zajiganiyaButton == 0 || voltH < 140) {
+ 152  0035  3B90        SNZ [010H].7
+ 152  0036  2800     R  JMP L20
+ 152  0037  0700     R  MOV A,_voltH[1]
+ 152  0038  0A00        SUB A,00h
+ 152  0039  380A        SNZ [0ah].0
+ 152  003A  2800     R  JMP L69
+ 152  003B  390A        SNZ [0ah].2
+ 152  003C  2800     R  JMP L18
+ 152  003D  0700     R  MOV A,_voltH
+ 152  003E  0A8C        SUB A,08ch
+ 152  003F  3C0A        SZ [0ah].0
+ 152  0040  2800     R  JMP L18
+ 152  0041              L69:
+ 152  0041              L20:
+
+; 153:             			return;
+ 153  0041  2800     R  JMP L5
+ 153  0042              L18:
+
+; 155:         			_delay(1000);
+ 155  0042  0FF9        MOV A,0f9H
+ 155  0043  2000     E  CALL __DELAYX0
+ 155  0044              L15:
+
+; 150:                 for (i = 0; i <= 235; i++) {
+ 150  0044  1480     R  INC _i
+ 150  0045  3D0A        SZ [0AH].2
+ 150  0046  1480     R  INC _i[1]
+ 150  0047              L17:
+ 150  0047  0F00        MOV A,00h
+ 150  0048  0200     R  SUB A,_i[1]
+ 150  0049  380A        SNZ [0ah].0
+ 150  004A  2800     R  JMP L70
+ 150  004B  390A        SNZ [0ah].2
+ 150  004C  2800     R  JMP L14
+ 150  004D  0FEB        MOV A,0ebh
+ 150  004E  0200     R  SUB A,_i
+ 150  004F  3C0A        SZ [0ah].0
+ 150  0050  2800     R  JMP L14
+ 150  0051              L70:
+
+; 157: 			    if (voltH > blijOn) {
+ 157  0051  0700     R  MOV A,_blijOn[1]
+ 157  0052  0200     R  SUB A,_voltH[1]
+ 157  0053  380A        SNZ [0ah].0
+ 157  0054  2800     R  JMP L71
+ 157  0055  390A        SNZ [0ah].2
+ 157  0056  2800     R  JMP L21
+ 157  0057  0700     R  MOV A,_blijOn
+ 157  0058  0200     R  SUB A,_voltH
+ 157  0059  3C0A        SZ [0ah].0
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 5 
+
+ 157  005A  2800     R  JMP L21
+ 157  005B              L71:
+
+; 158: 			        blijniy = 1;
+ 158  005B  3010        SET [010H].0
+ 158  005C              L21:
+
+; 160: 			    if (voltH > gabOn) {
+ 160  005C  0700     R  MOV A,_gabOn[1]
+ 160  005D  0200     R  SUB A,_voltH[1]
+ 160  005E  380A        SNZ [0ah].0
+ 160  005F  2800     R  JMP L72
+ 160  0060  390A        SNZ [0ah].2
+ 160  0061  2800     R  JMP L23
+ 160  0062  0700     R  MOV A,_gabOn
+ 160  0063  0200     R  SUB A,_voltH
+ 160  0064  3C0A        SZ [0ah].0
+ 160  0065  2800     R  JMP L23
+ 160  0066              L72:
+
+; 161: 			        gabarit = 1;
+ 161  0066  3090        SET [010H].1
+ 161  0067              L23:
+ 161  0067              L12:
+
+; 164:             if (voltH > blijOn && blijniy == 0) {
+ 164  0067  0700     R  MOV A,_blijOn[1]
+ 164  0068  0200     R  SUB A,_voltH[1]
+ 164  0069  380A        SNZ [0ah].0
+ 164  006A  2800     R  JMP L73
+ 164  006B  390A        SNZ [0ah].2
+ 164  006C  2800     R  JMP L25
+ 164  006D  0700     R  MOV A,_blijOn
+ 164  006E  0200     R  SUB A,_voltH
+ 164  006F  3C0A        SZ [0ah].0
+ 164  0070  2800     R  JMP L25
+ 164  0071              L73:
+ 164  0071  3C10        SZ [010H].0
+ 164  0072  2800     R  JMP L25
+
+; 166:                 for (i = 0; i <= 235; i++) {
+ 166  0073  1F00     R  CLR _i
+ 166  0074  1F00     R  CLR _i[1]
+ 166  0075  2800     R  JMP L30
+ 166  0076              L27:
+
+; 167: 			        ADC();
+ 167  0076  2000     R  CALL _ADC
+
+; 168: 			        if (zajiganiyaButton == 0 || voltH < 190) {
+ 168  0077  3B90        SNZ [010H].7
+ 168  0078  2800     R  JMP L33
+ 168  0079  0700     R  MOV A,_voltH[1]
+ 168  007A  0A00        SUB A,00h
+ 168  007B  380A        SNZ [0ah].0
+ 168  007C  2800     R  JMP L74
+ 168  007D  390A        SNZ [0ah].2
+ 168  007E  2800     R  JMP L31
+ 168  007F  0700     R  MOV A,_voltH
+ 168  0080  0ABE        SUB A,0beh
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 6 
+
+ 168  0081  3C0A        SZ [0ah].0
+ 168  0082  2800     R  JMP L31
+ 168  0083              L74:
+ 168  0083              L33:
+
+; 169: 			            return;
+ 169  0083  2800     R  JMP L5
+ 169  0084              L31:
+
+; 171: 			        _delay(1000);
+ 171  0084  0FF9        MOV A,0f9H
+ 171  0085  2000     E  CALL __DELAYX0
+ 171  0086              L28:
+
+; 166:                 for (i = 0; i <= 235; i++) {
+ 166  0086  1480     R  INC _i
+ 166  0087  3D0A        SZ [0AH].2
+ 166  0088  1480     R  INC _i[1]
+ 166  0089              L30:
+ 166  0089  0F00        MOV A,00h
+ 166  008A  0200     R  SUB A,_i[1]
+ 166  008B  380A        SNZ [0ah].0
+ 166  008C  2800     R  JMP L75
+ 166  008D  390A        SNZ [0ah].2
+ 166  008E  2800     R  JMP L27
+ 166  008F  0FEB        MOV A,0ebh
+ 166  0090  0200     R  SUB A,_i
+ 166  0091  3C0A        SZ [0ah].0
+ 166  0092  2800     R  JMP L27
+ 166  0093              L75:
+
+; 173: 			    if (voltH > blijOn) {
+ 173  0093  0700     R  MOV A,_blijOn[1]
+ 173  0094  0200     R  SUB A,_voltH[1]
+ 173  0095  380A        SNZ [0ah].0
+ 173  0096  2800     R  JMP L76
+ 173  0097  390A        SNZ [0ah].2
+ 173  0098  2800     R  JMP L34
+ 173  0099  0700     R  MOV A,_blijOn
+ 173  009A  0200     R  SUB A,_voltH
+ 173  009B  3C0A        SZ [0ah].0
+ 173  009C  2800     R  JMP L34
+ 173  009D              L76:
+
+; 174: 			        blijniy = 1;
+ 174  009D  3010        SET [010H].0
+ 174  009E              L34:
+ 174  009E              L25:
+
+; 177:             if (voltH < blijOff && blijniy == 1) {
+ 177  009E  0700     R  MOV A,_voltH[1]
+ 177  009F  0200     R  SUB A,_blijOff[1]
+ 177  00A0  380A        SNZ [0ah].0
+ 177  00A1  2800     R  JMP L77
+ 177  00A2  390A        SNZ [0ah].2
+ 177  00A3  2800     R  JMP L36
+ 177  00A4  0700     R  MOV A,_voltH
+ 177  00A5  0200     R  SUB A,_blijOff
+ 177  00A6  3C0A        SZ [0ah].0
+ 177  00A7  2800     R  JMP L36
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 7 
+
+ 177  00A8              L77:
+ 177  00A8  3810        SNZ [010H].0
+ 177  00A9  2800     R  JMP L36
+
+; 179:                 for (i = 0; i <= 435; i++) {
+ 179  00AA  1F00     R  CLR _i
+ 179  00AB  1F00     R  CLR _i[1]
+ 179  00AC  2800     R  JMP L41
+ 179  00AD              L38:
+
+; 180: 			        ADC();
+ 180  00AD  2000     R  CALL _ADC
+
+; 181: 			        if (zajiganiyaButton == 0 || voltH > 60) {
+ 181  00AE  3B90        SNZ [010H].7
+ 181  00AF  2800     R  JMP L44
+ 181  00B0  0F00        MOV A,00h
+ 181  00B1  0200     R  SUB A,_voltH[1]
+ 181  00B2  380A        SNZ [0ah].0
+ 181  00B3  2800     R  JMP L78
+ 181  00B4  390A        SNZ [0ah].2
+ 181  00B5  2800     R  JMP L42
+ 181  00B6  0F3C        MOV A,03ch
+ 181  00B7  0200     R  SUB A,_voltH
+ 181  00B8  3C0A        SZ [0ah].0
+ 181  00B9  2800     R  JMP L42
+ 181  00BA              L78:
+ 181  00BA              L44:
+
+; 182: 			            return;
+ 182  00BA  2800     R  JMP L5
+ 182  00BB              L42:
+ 182  00BB              L39:
+
+; 179:                 for (i = 0; i <= 435; i++) {
+ 179  00BB  1480     R  INC _i
+ 179  00BC  3D0A        SZ [0AH].2
+ 179  00BD  1480     R  INC _i[1]
+ 179  00BE              L41:
+ 179  00BE  0F01        MOV A,01h
+ 179  00BF  0200     R  SUB A,_i[1]
+ 179  00C0  380A        SNZ [0ah].0
+ 179  00C1  2800     R  JMP L79
+ 179  00C2  390A        SNZ [0ah].2
+ 179  00C3  2800     R  JMP L38
+ 179  00C4  0FB3        MOV A,0b3h
+ 179  00C5  0200     R  SUB A,_i
+ 179  00C6  3C0A        SZ [0ah].0
+ 179  00C7  2800     R  JMP L38
+ 179  00C8              L79:
+
+; 185: 			    if (voltH < blijOff) {
+ 185  00C8  0700     R  MOV A,_voltH[1]
+ 185  00C9  0200     R  SUB A,_blijOff[1]
+ 185  00CA  380A        SNZ [0ah].0
+ 185  00CB  2800     R  JMP L80
+ 185  00CC  390A        SNZ [0ah].2
+ 185  00CD  2800     R  JMP L45
+ 185  00CE  0700     R  MOV A,_voltH
+ 185  00CF  0200     R  SUB A,_blijOff
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 8 
+
+ 185  00D0  3C0A        SZ [0ah].0
+ 185  00D1  2800     R  JMP L45
+ 185  00D2              L80:
+
+; 186: 			        blijniy = 0;
+ 186  00D2  3410        CLR [010H].0
+ 186  00D3              L45:
+ 186  00D3              L36:
+
+; 189:             if (voltH < gabOff && gabarit == 1) {
+ 189  00D3  0700     R  MOV A,_voltH[1]
+ 189  00D4  0200     R  SUB A,_gabOff[1]
+ 189  00D5  380A        SNZ [0ah].0
+ 189  00D6  2800     R  JMP L81
+ 189  00D7  390A        SNZ [0ah].2
+ 189  00D8  2800     R  JMP L47
+ 189  00D9  0700     R  MOV A,_voltH
+ 189  00DA  0200     R  SUB A,_gabOff
+ 189  00DB  3C0A        SZ [0ah].0
+ 189  00DC  2800     R  JMP L47
+ 189  00DD              L81:
+ 189  00DD  3890        SNZ [010H].1
+ 189  00DE  2800     R  JMP L47
+
+; 191:                 for (i = 0; i <= 435; i++) {
+ 191  00DF  1F00     R  CLR _i
+ 191  00E0  1F00     R  CLR _i[1]
+ 191  00E1  2800     R  JMP L52
+ 191  00E2              L49:
+
+; 192: 			        ADC();
+ 192  00E2  2000     R  CALL _ADC
+
+; 193: 			        if (zajiganiyaButton == 0 || voltH > 48) {
+ 193  00E3  3B90        SNZ [010H].7
+ 193  00E4  2800     R  JMP L55
+ 193  00E5  0F00        MOV A,00h
+ 193  00E6  0200     R  SUB A,_voltH[1]
+ 193  00E7  380A        SNZ [0ah].0
+ 193  00E8  2800     R  JMP L82
+ 193  00E9  390A        SNZ [0ah].2
+ 193  00EA  2800     R  JMP L53
+ 193  00EB  0F30        MOV A,030h
+ 193  00EC  0200     R  SUB A,_voltH
+ 193  00ED  3C0A        SZ [0ah].0
+ 193  00EE  2800     R  JMP L53
+ 193  00EF              L82:
+ 193  00EF              L55:
+
+; 194: 			            return;
+ 194  00EF  2800     R  JMP L5
+ 194  00F0              L53:
+
+; 196: 			        _delay(1000);
+ 196  00F0  0FF9        MOV A,0f9H
+ 196  00F1  2000     E  CALL __DELAYX0
+ 196  00F2              L50:
+
+; 191:                 for (i = 0; i <= 435; i++) {
+ 191  00F2  1480     R  INC _i
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 9 
+
+ 191  00F3  3D0A        SZ [0AH].2
+ 191  00F4  1480     R  INC _i[1]
+ 191  00F5              L52:
+ 191  00F5  0F01        MOV A,01h
+ 191  00F6  0200     R  SUB A,_i[1]
+ 191  00F7  380A        SNZ [0ah].0
+ 191  00F8  2800     R  JMP L83
+ 191  00F9  390A        SNZ [0ah].2
+ 191  00FA  2800     R  JMP L49
+ 191  00FB  0FB3        MOV A,0b3h
+ 191  00FC  0200     R  SUB A,_i
+ 191  00FD  3C0A        SZ [0ah].0
+ 191  00FE  2800     R  JMP L49
+ 191  00FF              L83:
+
+; 198: 			    if (voltH < gabOff) {
+ 198  00FF  0700     R  MOV A,_voltH[1]
+ 198  0100  0200     R  SUB A,_gabOff[1]
+ 198  0101  380A        SNZ [0ah].0
+ 198  0102  2800     R  JMP L84
+ 198  0103  390A        SNZ [0ah].2
+ 198  0104  2800     R  JMP L56
+ 198  0105  0700     R  MOV A,_voltH
+ 198  0106  0200     R  SUB A,_gabOff
+ 198  0107  3C0A        SZ [0ah].0
+ 198  0108  2800     R  JMP L56
+ 198  0109              L84:
+
+; 199: 			        gabarit = 0;
+ 199  0109  3490        CLR [010H].1
+ 199  010A              L56:
+ 199  010A              L47:
+ 199  010A              L10:
+
+; 146: 		while (zajiganiyaButton == 1) {
+ 146  010A  3F90        SZ [010H].7
+ 146  010B  2800     R  JMP L9
+
+; 203:         if (sentrZamokButton == 0) {
+ 203  010C  3F10        SZ [010H].6
+ 203  010D  2800     R  JMP L58
+
+; 204:             ADC();
+ 204  010E  2000     R  CALL _ADC
+
+; 205:             if (voltH > gabOn) {
+ 205  010F  0700     R  MOV A,_gabOn[1]
+ 205  0110  0200     R  SUB A,_voltH[1]
+ 205  0111  380A        SNZ [0ah].0
+ 205  0112  2800     R  JMP L85
+ 205  0113  390A        SNZ [0ah].2
+ 205  0114  2800     R  JMP L60
+ 205  0115  0700     R  MOV A,_gabOn
+ 205  0116  0200     R  SUB A,_voltH
+ 205  0117  3C0A        SZ [0ah].0
+ 205  0118  2800     R  JMP L60
+ 205  0119              L85:
+
+; 207:                 gabarit = 1;
+ 207  0119  3090        SET [010H].1
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 10 
+
+
+; 208: 			    blijniy = 1;
+ 208  011A  3010        SET [010H].0
+
+; 209: 			    for (i = 0; i <= 10000; i++) {
+ 209  011B  1F00     R  CLR _i
+ 209  011C  1F00     R  CLR _i[1]
+ 209  011D  2800     R  JMP L65
+ 209  011E              L62:
+
+; 210: 			        if (zajiganiyaButton == 1) {
+ 210  011E  3B90        SNZ [010H].7
+ 210  011F  2800     R  JMP L66
+
+; 211: 			            i = 10000;
+ 211  0120  0F10        MOV A,010h
+ 211  0121  0080     R  MOV _i,A
+ 211  0122  0F27        MOV A,027h
+ 211  0123  0080     R  MOV _i[1],A
+
+; 212: 			        } else {
+ 212  0124  2800     R  JMP L67
+ 212  0125              L66:
+
+; 213: 			        	_delay(1000);
+ 213  0125  0FF9        MOV A,0f9H
+ 213  0126  2000     E  CALL __DELAYX0
+ 213  0127              L67:
+ 213  0127              L63:
+
+; 209: 			    for (i = 0; i <= 10000; i++) {
+ 209  0127  1480     R  INC _i
+ 209  0128  3D0A        SZ [0AH].2
+ 209  0129  1480     R  INC _i[1]
+ 209  012A              L65:
+ 209  012A  0F27        MOV A,027h
+ 209  012B  0200     R  SUB A,_i[1]
+ 209  012C  380A        SNZ [0ah].0
+ 209  012D  2800     R  JMP L86
+ 209  012E  390A        SNZ [0ah].2
+ 209  012F  2800     R  JMP L62
+ 209  0130  0F10        MOV A,010h
+ 209  0131  0200     R  SUB A,_i
+ 209  0132  3C0A        SZ [0ah].0
+ 209  0133  2800     R  JMP L62
+ 209  0134              L86:
+
+; 216: 			    gabarit = 0;
+ 216  0134  3490        CLR [010H].1
+
+; 217: 			    blijniy = 0;
+ 217  0135  3410        CLR [010H].0
+ 217  0136              L60:
+ 217  0136              L58:
+ 217  0136              L7:
+
+; 145: 	while(1){
+ 145  0136  2800     R  JMP L10
+ 145  0137              L5:
+
+; 228: }
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 11 
+
+ 228  0137  2800     R  JMP $
+ 228  0138              _main ENDP
+ 228  0138              PUBLIC _voltH
+ 228  0000              @voltH .SECTION 'DATA'
+
+;  16: unsigned int voltH;
+  16  0000  0002[       _voltH DB 2 DUP (?) ; voltH
+            00
+            ]
+  16  0002              PUBLIC _voltL
+  16  0000              @voltL .SECTION 'DATA'
+
+;  15: unsigned int voltL;
+  15  0000  0002[       _voltL DB 2 DUP (?) ; voltL
+            00
+            ]
+  15  0002              PUBLIC _i
+  15  0000              @i .SECTION 'DATA'
+
+;  14: unsigned int i;
+  14  0000  0002[       _i DB 2 DUP (?) ; i
+            00
+            ]
+  14  0002              PUBLIC _blijOff
+  14  0000              @blijOff .SECTION 'DATA'
+
+;  13: unsigned int blijOff;
+  13  0000  0002[       _blijOff DB 2 DUP (?) ; blijOff
+            00
+            ]
+  13  0002              PUBLIC _blijOn
+  13  0000              @blijOn .SECTION 'DATA'
+
+;  12: unsigned int blijOn;
+  12  0000  0002[       _blijOn DB 2 DUP (?) ; blijOn
+            00
+            ]
+  12  0002              PUBLIC _gabOff
+  12  0000              @gabOff .SECTION 'DATA'
+
+;  11: unsigned int gabOff;
+  11  0000  0002[       _gabOff DB 2 DUP (?) ; gabOff
+            00
+            ]
+  11  0002              PUBLIC _gabOn
+  11  0000              @gabOn .SECTION 'DATA'
+
+;  10: unsigned int gabOn;
+  10  0000  0002[       _gabOn DB 2 DUP (?) ; gabOn
+            00
+            ]
+
+; 119: void main(){
+ 119  0000              STARTSEC .SECTION  COM_L 'CODE'
+ 119  0000              STARTUP:
+ 119  0000              STARTSEC .SECTION  COM_E 'CODE'
+ 119  0000  0003        RET
+ 119  0001              EXTERN RH:BYTE
+ 119  0001              EXTERN __DELAYX0:NEAR
+ 119  0001              EXTERN __DELAYX1:NEAR
+"File: Tunel_New.c   Holtek Cross-Assembler  Version 3.00      Page 12 
+
+ 119  0001              EXTERN __DELAYX2:NEAR
+ 119  0001              EXTERN __DELAYX3:NEAR
+ 119  0001              EXTERN __DELAYX4:NEAR
+ 119  0001              EXTERN __DELAYX5:NEAR
+ 119  0001              EXTERN __DELAYX6:NEAR
+ 119  0001              EXTERN __DELAYY0:NEAR
+ 119  0001              EXTERN __DELAYY1:NEAR
+ 119  0001              EXTERN __DELAYY2:NEAR
+ 119  0001              EXTERN __DELAYY3:NEAR
+ 119  0001              EXTERN __DELAYY4:NEAR
+ 119  0001              EXTERN __DELAYY5:NEAR
+ 119  0000              @CODE .SECTION AT 0 'CODE'
+ 119  0000  2000     R  CALL STARTUP
+ 119  0001  2800     R  JMP begin
+ 119  0002              @DUMMY PROC
+ 119  0002  2000     R  CALL _main
+ 119  0003              @DUMMY ENDP
+
+
+        0 Errors
